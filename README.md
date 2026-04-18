@@ -1,5 +1,9 @@
 # Outgate
 
+[![ghcr.io](https://img.shields.io/badge/ghcr.io-fareside%2Foutgate-blue?logo=docker)](https://github.com/fareside/outgate/pkgs/container/outgate)
+[![CI](https://img.shields.io/github/actions/workflow/status/fareside/outgate/ci.yaml?label=ci)](https://github.com/fareside/outgate/actions/workflows/ci.yaml)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
+
 **Programmable action boundary for AI agents.**
 
 Your agent can open a GitHub issue. It cannot delete a repo. That's not a setting — that's policy. Every action an agent takes on the internet runs through JavaScript you control. What isn't explicitly allowed is blocked.
