@@ -25,9 +25,11 @@ Every outbound call runs through policy code you control. Log what matters, in w
 
 ## Try it in 90 seconds
 
-Start Outgate locally:
+Start Outgate with the built-in GitHub safe-agent policy:
 
 ```bash
+export GITHUB_TOKEN=ghp_yourtoken
+
 docker run --rm \
   -p 9191:9191 \
   -v outgate-data:/data \
@@ -36,14 +38,25 @@ docker run --rm \
   ghcr.io/fareside/outgate:latest
 ```
 
-Run any agent through it:
+Run any agent or tool through it:
 
 ```bash
 npx outgate http://127.0.0.1:9191 -- claude
 npx outgate http://127.0.0.1:9191 -- node agent.js
 ```
 
-The agent runs normally. All outbound calls go through Outgate. Your `GITHUB_TOKEN` is injected automatically — the agent never sees it.
+The agent runs normally. All outbound calls go through Outgate. `GITHUB_TOKEN` is injected only into requests the policy allows — the agent never sees it.
+
+Try it directly:
+
+```bash
+# Allowed — reads a repo
+npx outgate http://127.0.0.1:9191 -- curl -s https://api.github.com/repos/fareside/outgate
+
+# Blocked — DELETE is never allowed
+npx outgate http://127.0.0.1:9191 -- curl -s -X DELETE https://api.github.com/repos/fareside/outgate
+# → {"blocked":true,"reason":"destructive GitHub deletes are blocked",...}
+```
 
 ## Write policy in JavaScript
 
