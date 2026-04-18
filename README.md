@@ -76,6 +76,16 @@ export default async function intercept(request, env, ctx) {
 
 Policy is JavaScript. It can read the request body, call a secrets manager, check a rate limit, log to your audit system — anything.
 
+## What's next
+
+JavaScript policy is enforcement by convention — code that makes the right decision, as long as nothing goes wrong.
+
+What we're building toward is enforcement by design. The real credential stays locked inside Outgate, unreachable to anything outside it. The agent holds a token that defines exactly what it's allowed to do — not as a list of rules to follow, but as a constraint the math enforces. Prompt injection, a compromised package, a manipulated model: none of them can exceed those bounds. The math won't allow it.
+
+The deeper property is delegation. An agent can issue a narrower version of its own token to a subagent or a partner's system. That derived token can only do less — never more. Which means you can give another team's agent exactly the capability it needs to act on your behalf, with a hard guarantee it cannot do anything else.
+
+Credentials never travel. Capability does.
+
 ## Docs
 
 - [Writing policies](docs/policies.md)
