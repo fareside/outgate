@@ -1,0 +1,6 @@
+{
+  "github_safe_agent": "github_safe_agent.mjs",
+  "intercept": "intercept.mjs",
+  "intercept_deno": "intercept_deno.mjs",
+  "intercept_inject": "intercept_inject.mjs"
+}

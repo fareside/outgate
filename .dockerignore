@@ -1,0 +1,10 @@
+.git
+.idea
+.claude
+target
+cert
+outgate-ca
+outgate-root-ca.pem
+Dockerfile
+.DS_Store
+javascript

@@ -1,0 +1,7 @@
+/target
+/outgate-ca
+/outgate-root-ca.pem
+/cert
+.claude/
+/javascript/outgate/node_modules
+/javascript/outgate/dist
