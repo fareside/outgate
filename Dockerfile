@@ -14,8 +14,7 @@ COPY . .
 
 RUN cargo fetch --locked
 
-RUN cargo build --release --locked -p outgate --bin outgate \
-    && strip target/release/outgate
+RUN cargo build --release --locked -p outgate --bin outgate
 
 FROM debian:trixie-slim AS runtime
 

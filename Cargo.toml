@@ -11,6 +11,14 @@ edition = "2024"
 name = "outgate"
 path = "src/main.rs"
 
+[profile.release]
+opt-level = 3           # 0–3 (higher = more optimization)
+lto = "fat"             # full link-time optimization (best runtime perf)
+codegen-units = 1       # single codegen unit = slower build, faster binary
+#strip = "symbols"      # remove symbols to shrink binary
+#panic = "abort"        # smaller + faster; disables unwinding
+incremental = false     # ensures full optimization (no caching)
+
 [dependencies]
 base64 = "0.22"
 bytes = "1"
