@@ -6,7 +6,11 @@ Your agent can open a GitHub issue. It cannot delete a repo. That's not a settin
 
 The agent never touches real credentials. Destructive actions never reach the upstream service. Works with any agent, any framework, any cloud — no code changes required.
 
----
+Outgate is a Rust proxy with embedded JavaScript policy execution. It intercepts HTTP and HTTPS traffic, runs your policy function, and either forwards the request or blocks it.
+
+## Deploy agents your security team can approve
+
+Agents with unconstrained API access are a hard sell internally. Outgate gives you the controls that make deployment possible: explicit action boundaries, credential isolation, and a full audit trail. The conversation changes from "we can't let an agent touch production" to "here's exactly what it's allowed to do."
 
 ## What you get
 
@@ -19,19 +23,29 @@ Your API keys, tokens, and secrets live in Outgate. The agent never sees them. T
 **Full visibility into what agents actually did.**
 Every outbound call runs through policy code you control. Log what matters, in whatever format your team needs. No black boxes.
 
-**A yes from your security team.**
-Agents with unconstrained API access are a hard sell internally. Outgate gives you the controls that make deployment possible: explicit action boundaries, credential isolation, audit trail.
+## Try it in 90 seconds
 
----
-
-## How it works
+Start Outgate locally:
 
 ```bash
-npx outgate http://your-outgate-instance -- claude
-npx outgate http://your-outgate-instance -- node agent.js
+docker run --rm \
+  -p 9191:9191 \
+  -v outgate-data:/data \
+  -e GITHUB_TOKEN \
+  -e INTERCEPT=/usr/local/share/outgate/examples/github_safe_agent.mjs \
+  ghcr.io/fareside/outgate:latest
 ```
 
-The agent runs normally. Outgate intercepts every outbound call. Your policy — a short JavaScript function — sees each request and decides what happens.
+Run any agent through it:
+
+```bash
+npx outgate http://127.0.0.1:9191 -- claude
+npx outgate http://127.0.0.1:9191 -- node agent.js
+```
+
+The agent runs normally. All outbound calls go through Outgate. Your `GITHUB_TOKEN` is injected automatically — the agent never sees it.
+
+## Write policy in JavaScript
 
 ```js
 export default async function intercept(request, env, ctx) {
@@ -49,8 +63,6 @@ export default async function intercept(request, env, ctx) {
 
 Policy is JavaScript. It can read the request body, call a secrets manager, check a rate limit, log to your audit system — anything.
 
----
-
 ## Docs
 
 - [Writing policies](docs/policies.md)
@@ -60,8 +72,8 @@ Policy is JavaScript. It can read the request body, call a secrets manager, chec
 - [Docker reference](docs/docker.md)
 - [Building from source](docs/development.md)
 
----
+Found a security issue? See [SECURITY.md](SECURITY.md).
 
 ## License
 
-Not yet assigned.
+Apache 2.0. See [LICENSE](LICENSE).
